@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log("Mongo URI:", process.env.MONGO_URI);
 const express = require("express");
 const app = express();
 const cors = require('cors');
@@ -24,21 +25,44 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(cors());
 
 //Server Connection
+// async function main() {
+// await mongoose.connect(process.env.MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   serverSelectionTimeoutMS: 10000, // 10 seconds
+// });
+// }
+
+// main()
+//   .then(() => {
+//     console.log("Connected to MongoDB");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 async function main() {
-await mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 10000, // 10 seconds
-});
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 10000,
+    });
+    console.log("✅ Connected to MongoDB");
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err);
+  }
 }
 
-main()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+mongoose.connection.on('error', err => {
+  console.log("❌ Mongoose error:", err);
+});
+mongoose.connection.on('disconnected', () => {
+  console.log("⚠️ Mongoose disconnected");
+});
+
+main();
+
+
 
 app.get("/", (req, res) => {
   res.send("Welcome to WanderLust");

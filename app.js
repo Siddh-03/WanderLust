@@ -1,8 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 console.log("Mongo URI:", process.env.MONGO_URI);
 const express = require("express");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 // const mongo_url = "mongodb://127.0.0.1:27017/wanderLust";
@@ -25,44 +25,21 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(cors());
 
 //Server Connection
-// async function main() {
-// await mongoose.connect(process.env.MONGO_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   serverSelectionTimeoutMS: 10000, // 10 seconds
-// });
-// }
-
-// main()
-//   .then(() => {
-//     console.log("Connected to MongoDB");
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 async function main() {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000,
-    });
-    console.log("✅ Connected to MongoDB");
-  } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
-  }
+  await mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000, // 10 seconds
+  });
 }
 
-mongoose.connection.on('error', err => {
-  console.log("❌ Mongoose error:", err);
-});
-mongoose.connection.on('disconnected', () => {
-  console.log("⚠️ Mongoose disconnected");
-});
-
-main();
-
-
+main()
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.get("/", (req, res) => {
   res.send("Welcome to WanderLust");
@@ -161,5 +138,5 @@ app.use((err, req, res, next) => {
 // });
 
 app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+  console.log(`Server is listening on port ${port}`);
 });

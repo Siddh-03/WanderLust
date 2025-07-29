@@ -5,7 +5,7 @@
       <h1><%= listing.title %></h1>
     </div>
 
-    <div class="card col-6 offset-3">
+    <div class="card col-6 offset-3 listing-card">
       <img
         src="<%= listing.image.url %>"
         class="card-img-top show-img"
@@ -29,6 +29,64 @@
       <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
         <button class="btn btn-dark offset-4">Delete</button>
       </form>
+    </div>
+  </div>
+  <div class="col-8 offset-3 mb-3">
+    <hr />
+    <h4>Leave your Experience</h4>
+    <form
+      action="/listings/<%= listing._id %>/reviews"
+      method="post"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mt-3 mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input
+          type="range"
+          name="review[rating]"
+          id="rating"
+          max="5"
+          min="1"
+          class="form-range"
+          required
+        />
+      </div>
+      <div class="mt-3 mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <textarea
+          rows="5"
+          cols="30"
+          name="review[comment]"
+          id="comment"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">
+          Please write dude if you wanna review it
+        </div>
+      </div>
+      <button class="btn btn-outline-dark">Submit</button>
+    </form>
+    <hr />
+    <p><b>All Reviews</b></p>
+    <div class="row">
+      <% for(let review of listing.reviews) { %>
+      <div class="card col-5 ms-3 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Death</h5>
+          <p class="card-text"><%= review.comment %></p>
+          <p class="card-text"><%= review.rating %> Star</p>
+          <form
+            class="mb-3"
+            method="POST"
+            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+          >
+            <button class="btn btn-sm btn-dark">Delete</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
     </div>
   </div>
 </body>

@@ -10,6 +10,9 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema } = require("./schema.js");
+const passport = require("passport");
+const User = require("./models/user.js");
+const localStratergy = require("passport-local");
 
 //Middleware
 app.engine("ejs", ejsMate);
@@ -117,14 +120,13 @@ app.delete(
   })
 );
 
-// CORRECT - This is the right way to handle 404 errors
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("error", { message }); // assuming EJS
+  res.status(statusCode).render("error", { message }); 
 });
 
 // app.use((err, req, res, next) => {

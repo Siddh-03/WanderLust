@@ -73,54 +73,6 @@ app.use((req, res, next) => {
 app.use("/listings", listing);
 app.use("/listings/:id/reviews", review);
 
-app.post(
-  "/listings",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-    //   console.log(listing);
-  })
-);
-
-app.get(
-  "/listings/:id/edit",
-  wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit", { listing });
-  })
-);
-
-app.put(
-  "/listings/:id",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const listingData = { ...req.body.listing };
-
-    // Move image string into nested field
-    const imageUrl = listingData.image;
-    delete listingData.image;
-
-    await Listing.findByIdAndUpdate(id, {
-      ...listingData,
-      "image.url": imageUrl,
-    });
-
-    res.redirect(`/listings/${id}`);
-  })
-);
-
-app.delete(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-  })
-);
 
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));

@@ -1,23 +1,20 @@
-require("dotenv").config();
-console.log("Mongo URI:", process.env.MONGO_URI);
+if (process.env.NODE_MODE != "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
 const mongoose = require("mongoose");
-// const mongo_url = "mongodb://127.0.0.1:27017/wanderLust";
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-const Review = require("./models/review.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
-
-const listingSchema = require("./schema.js");
 const passport = require("passport");
 const User = require("./models/user.js");
 const LocalStrategy = require("passport-local");

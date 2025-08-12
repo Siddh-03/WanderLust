@@ -7,13 +7,8 @@ const listingSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String },
   image: {
+    url: String,
     filename: String,
-    url: {
-      type: String,
-      default: "https://www.w3schools.com/w3images/lights.jpg",
-      set: (v) =>
-        v === "" ? "https://www.w3schools.com/w3images/lights.jpg" : v,
-    },
   },
   price: { type: Number },
   location: { type: String },

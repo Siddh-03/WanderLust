@@ -1,17 +1,16 @@
 <% layout('layouts/boilerplate') %>
+
 <body>
   <div class="row mb-3">
     <div class="col-8 offset-3 mt-3">
       <h1><%= listing.title %></h1>
     </div>
-
     <div class="card col-6 offset-3 listing-card">
       <img
         src="<%= listing.image.url %>"
         class="card-img-top show-img"
         alt="listing_image"
       />
-      <b></b>
       <div class="card-body">
         <p class="card-text">
           <i>Owned By <%= listing.owner.username %></i> <br />
@@ -20,11 +19,12 @@
           <%= listing.description %> <br />
           <%= listing.location %> <br />
           <%= listing.country %> <br />
-          &#8377;<%= listing.price.toLocaleString("en-IN")%>
+          &#8377;<%= listing.price.toLocaleString("en-IN") %>
         </p>
       </div>
     </div>
-    <% if (currUser && listing.owner._id.equals(currUser._id)) {%>
+
+    <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
     <div class="btns">
       <a
         href="/listings/<%= listing._id %>/edit"
@@ -37,6 +37,7 @@
     </div>
     <% } %>
   </div>
+
   <div class="col-8 offset-3 mb-3">
     <% if (currUser) { %>
     <hr />
@@ -112,11 +113,11 @@
       </div>
       <button class="btn btn-outline-dark">Submit</button>
     </form>
-    <% } %>
+    <% } %> <% if (listing.reviews.length) { %>
     <hr />
     <p><b>All Reviews</b></p>
     <div class="row">
-      <% for(let review of listing.reviews) { %>
+      <% for (let review of listing.reviews) { %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
           <h5 class="card-title">@<%= review.author.username %></h5>
@@ -125,7 +126,7 @@
             data-rating="<%= review.rating %>"
           ></p>
           <p class="card-text"><%= review.comment %></p>
-          <% if (currUser && review.author._id.equals(currUser._id)) {%>
+          <% if (currUser && review.author._id.equals(currUser._id)) { %>
           <form
             class="mb-3"
             method="POST"
@@ -138,5 +139,18 @@
       </div>
       <% } %>
     </div>
+    <% } %>
   </div>
+
+  <div class="col-8 offset-3 mt-3">
+    <h3>Where you'll be</h3>
+    <div id="map" style="height: 400px; width: 100%"></div>
+  </div>
+  <script>
+    // Pass map token to frontend JS
+    const mapToken = "<%= process.env.MAP_TILER %>";
+    // Pass listing data to JS
+    const listingData = <%- JSON.stringify(listing) %>;
+  </script>
+  <script src="/js/map.js"></script>
 </body>

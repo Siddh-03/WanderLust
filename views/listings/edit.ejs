@@ -8,6 +8,7 @@
         method="post"
         novalidate
         class="needs-validation"
+        enctype="multipart/form-data"
       >
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -54,13 +55,12 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="url" class="form-label">Url for image</label>
-          <input
-            type="text"
-            name="listing[image]"
-            value="<%= listing.image.url %>"
-            class="form-control"
-          />
+          Original Image: <br />
+          <img src="<%= originalImage %>" alt="" style="border-radius: 10px;" />
+        </div>
+        <div class="mb-3">
+          <label for="url" class="form-label">Image</label>
+          <input type="file" name="listing[image]" class="form-control" />
         </div>
         <div class="mb-3">
           <label for="location" class="form-label">Location</label>

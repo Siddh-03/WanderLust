@@ -11,6 +11,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -18,6 +19,7 @@ const userRouter = require("./routes/user.js");
 const passport = require("passport");
 const User = require("./models/user.js");
 const LocalStrategy = require("passport-local");
+const mongoUrl = process.env.MONGO_URL;
 
 //Middleware
 app.engine("ejs", ejsMate);
@@ -29,8 +31,21 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(cors());
 
+const store = MongoStore.create({
+  mongoUrl: mongoUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("ERROR is MONGO STORE SESSION", err);
+});
+
 const sessionOptions = {
-  secret: "Shhhh",
+  store: store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -42,7 +57,7 @@ const sessionOptions = {
 
 //Server Connection
 async function main() {
-  await mongoose.connect(process.env.MONGO_URI, {});
+  await mongoose.connect(mongoUrl, {});
 }
 
 main()
@@ -54,9 +69,9 @@ main()
   });
 
 //Root
-app.get("/", (req, res) => {
-  res.send("Welcome to WanderLust");
-});
+// app.get("/", (req, res) => {
+//   res.send("Welcome to WanderLust");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());

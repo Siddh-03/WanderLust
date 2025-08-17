@@ -1,11 +1,11 @@
-body{
+body {
   font-family: "Plus Jakarta Sans", sans-serif !important;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}  
+}
 
-.container{
+.container {
   flex: 1;
 }
 
@@ -32,7 +32,9 @@ body{
   flex-wrap: wrap;
 }
 
-.f-info-socials, .f-info-name, .f-info-links {
+.f-info-socials,
+.f-info-name,
+.f-info-links {
   display: flex;
   justify-content: center;
   /* margin-left: 1.2rem; */
@@ -41,73 +43,123 @@ body{
 }
 
 .f-info-socials i {
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 0.5rem;
-    /* margin-left: 1.2rem; */
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  /* margin-left: 1.2rem; */
 }
 
-.f-info-links a{
-    text-decoration: none;
-    color: #222;
-    padding: 0 5px 0;
+.f-info-links a {
+  text-decoration: none;
+  color: #222;
+  padding: 0 5px 0;
 }
 
 .f-info-links a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* cards */
 
-.listing-card{
+.listing-card {
   border: none !important;
   margin-bottom: 2rem;
 }
 
-.card-img-top{
+.card-img-top {
   border-radius: 1rem !important;
   width: 100% !important;
   object-fit: cover !important;
 }
 
-.card-body{
+.card-body {
   padding: 0 !important;
 }
 
-.card-text p{
+.card-text p {
   font-weight: 400 !important;
 }
 
-.card-link{
+.card-link {
   text-decoration: none;
 }
 
-.card-img-overlay{
+.card-img-overlay {
   opacity: 0;
 }
 
-.card-img-overlay:hover{
+.card-img-overlay:hover {
   opacity: 0.2;
   background-color: white;
 }
 /* New Page */
 
-.add-btn{
+.add-btn {
   background-color: #fe424d !important;
   border: none !important;
 }
 
 /* Edit page */
 
-.edit-btn{
+.edit-btn {
   background-color: #fe424d !important;
   border: none !important;
 }
 
 /* show page */
-.show-img{
+.show-img {
   height: 30vh;
 }
-.btns{
+.btns {
   display: flex;
+}
+
+/* Maps */
+#map {
+  height: 300px;
+  width: 100vh;
+}
+
+/* Map-Icon */
+
+/* The container for our two-state marker */
+.marker-container {
+  /* Sized to fit the largest state (the circular icon) */
+  width: 48px;
+  height: 48px;
+  /* Flexbox helps center the pin which is smaller */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Aligns the pin to the bottom */
+}
+
+/* The Google-style pin (visible by default) */
+/*.marker-pin {
+  width: 26px;
+  height: 42px;
+  display: block;  Show the pin by default 
+  cursor: pointer;
+}*/
+
+/* The circular icon (hidden by default) */
+.marker-icon {
+  font-size: 36px;
+  background-color: rgba(234, 67, 53, 0.9);
+  color: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  display: none; /* Hide the icon by default */
+  cursor: pointer;
+}
+
+/* --- The Hover Logic --- */
+
+/* When you hover over the container... */
+.marker-container:hover .marker-pin {
+  display: none; /* Hide the pin */
+}
+
+.marker-container:hover .marker-icon {
+  display: block; /* Show the icon */
 }

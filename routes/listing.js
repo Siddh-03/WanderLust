@@ -15,7 +15,7 @@ router
     isLoggedIn,
     upload.single("listing[image]"),
     validateListing,
-    wrapAsync(listingController.createListing)
+    wrapAsync(listingController.newListing)
   );
 
 router.get("/new", isLoggedIn, (req, res) => {

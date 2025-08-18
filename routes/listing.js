@@ -30,7 +30,7 @@ router
     isOwner,
     upload.single("listing[image]"),
     validateListing,
-    wrapAsync(listingController.listingUpdate)
+    wrapAsync(listingController.updateListing)
   )
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.deleteListing));
 
@@ -38,7 +38,7 @@ router.get(
   "/:id/edit",
   isLoggedIn,
   isOwner,
-  wrapAsync(listingController.editListingForm)
+  wrapAsync(listingController.renderEditForm)
 );
 
 module.exports = router;
